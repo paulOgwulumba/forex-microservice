@@ -29,7 +29,7 @@ Client.connect(err => {
     isDatabaseConnected = true
 
     // stores currency information gotten from third-party APIs
-    currencyDB = Client.db().collection('student_base')
+    currencyDB = Client.db().collection('currency_base')
   }
 })
 
@@ -49,12 +49,22 @@ router.get('/forex/latest/currencies/:currencyCode', async (req, res, next) => {
   // Make call to Third-party forex api
   fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${APIKEY}`)
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       const obj = {
         base: currencyCode,
         date: data.date,
         rates: makeBaseCurrency(currencyCode, data.base, data.rates)
       }
+
+      // Insert information into database if database is connected
+      if (isDatabaseConnected) {
+        try {
+          await currencyDB.insertOne(obj)
+        } catch (e) {
+          console.log(`Database Error: ${e}`)
+        }
+      }
+
       res.status(200).send(obj)
     })
     .catch(err => {
@@ -87,12 +97,22 @@ router.get('/forex/latest/currencies/:currencyCode/date/:date', (req, res, next)
   // Make call to Third-party forex api
   fetch(`http://api.exchangeratesapi.io/v1/${date}?access_key=${APIKEY}`)
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       const obj = {
         base: currencyCode,
         date: data.date,
         rates: makeBaseCurrency(currencyCode, data.base, data.rates)
       }
+
+      // Insert information into database if database is connected
+      if (isDatabaseConnected) {
+        try {
+          await currencyDB.insertOne(obj)
+        } catch (e) {
+          console.log(`Database Error: ${e}`)
+        }
+      }
+
       res.status(200).send(obj)
     })
     .catch(err => {
@@ -147,11 +167,20 @@ router.get('/forex/latest/currencies', (req, res, next) => {
   // Make call to Third-party forex api
   fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${APIKEY}${newQuery}`)
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       const obj = {
         base: currencyCode,
         date: data.date,
         rates: makeBaseCurrency(currencyCode, data.base, data.rates)
+      }
+
+      // Insert information into database if database is connected
+      if (isDatabaseConnected) {
+        try {
+          await currencyDB.insertOne(obj)
+        } catch (e) {
+          console.log(`Database Error: ${e}`)
+        }
       }
 
       // Attach invalid currency codes to an error message attached to them to notify the API user
