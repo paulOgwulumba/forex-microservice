@@ -22,7 +22,6 @@ const CurrencyRates = (props) => {
 
 function unpackRates(obj) {
   let unpacked = [];
-  console.log(obj)
 
   if(!obj.rates) {
     return unpacked

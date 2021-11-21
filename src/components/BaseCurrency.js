@@ -6,7 +6,7 @@ const BaseCurrency = (props) => {
     <div className="base-currency">
         <label for="standard-select">Base Currency</label>
         <div class="select">
-          <select id="standard-select">
+          <select id="standard-select" onChange={props.handleChange}>
             {unpackCurrencies()}
           </select>
           <span class="focus"></span>
@@ -18,6 +18,10 @@ const BaseCurrency = (props) => {
 function unpackCurrencies(){
   let options = []
   for (let currencyName of Object.keys(CurrencyNames)) {
+    if(currencyName === 'USD') {
+      options.push(<option value={currencyName} selected={true}>{`${CurrencyNames[currencyName]} (${currencyName})`}</option>)
+      continue
+    }
     options.push(<option value={currencyName}>{`${CurrencyNames[currencyName]} (${currencyName})`}</option>)
   }
   return options
