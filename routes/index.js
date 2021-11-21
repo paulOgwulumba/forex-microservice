@@ -9,7 +9,7 @@ const { validateCurrency, makeBaseCurrency, validateDate } = require('../utils/c
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') })
 
 // Get API key for third party Forex API Service
-const APIKEY = process.env.API_KEY
+const APIKEY = 'da05051eb4053aad85b9d334e03ccd9a';
 
 //  set up database
 const { Client } = require('../utils/utils')
