@@ -9,7 +9,7 @@ import React from 'react'
 class App extends React.Component {
   state = {data: {}, baseCurrency: 'USD'}
   componentDidMount(){
-    fetch('localhost:20290/forex/latest/currencies/usd')
+    fetch('http://localhost:20290/forex/latest/currencies/usd')
       .then(response => response.json())
       .then(data => {
         this.setState({data: data})
