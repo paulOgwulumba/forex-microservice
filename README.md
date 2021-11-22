@@ -8,7 +8,8 @@ To run this on your local machine, follow these steps:
 3. Run this command to start backend server:
    npm start
 
-4. Open a new terminal and run this command to start your react server:
-   npm run run-frontend-server
+4. Open a new terminal and run these commands to start your react server:
+   cd ./public
+   npm start
 
    You can view the app on localhost:3000
